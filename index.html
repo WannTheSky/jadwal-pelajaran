@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GALAXY · Jadwal Pelajaran ✦</title>
+    <style>
+        /* ========== RESET & FONT ========== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: radial-gradient(circle at 10% 20%, #0c0f1e, #030514);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+            position: relative;
+        }
+
+        /* efek bintang jauh */
+        body::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: radial-gradient(1px 1px at 20px 30px, #fff, rgba(0,0,0,0)),
+                              radial-gradient(1px 1px at 40px 70px, #fff, rgba(0,0,0,0)),
+                              radial-gradient(2px 2px at 120px 240px, #b0c4ff, rgba(0,0,0,0)),
+                              radial-gradient(1px 1px at 85% 70%, #ffe4b5, rgba(0,0,0,0));
+            background-repeat: repeat;
+            background-size: 250px 250px;
+            opacity: 0.25;
+            pointer-events: none;
+        }
+
+        /* ========== CARD UTAMA ========== */
+        .galaxy-container {
+            width: 100%;
+            max-width: 1200px;
+            background: rgba(8, 12, 23, 0.75);
+            backdrop-filter: blur(16px) saturate(180%);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(74, 128, 255, 0.25);
+            border-radius: 48px 48px 40px 40px;
+            box-shadow: 0 30px 60px -20px #000000,
+                        0 0 0 1px rgba(173, 216, 255, 0.1) inset,
+                        0 0 30px rgba(0, 180, 255, 0.2);
+            padding: 2.5rem 2.2rem;
+            transition: box-shadow 0.3s ease;
+            position: relative;
+            z-index: 5;
+        }
+
+        .galaxy-container:hover {
+            box-shadow: 0 35px 70px -15px #000d1a, 0 0 0 1px rgba(120, 180, 255, 0.4) inset, 0 0 45px #2f6fbb55;
+        }
+
+        /* ========== HEADER ========== */
+        .header h1 {
+            font-size: 2.8rem;
+            font-weight: 400;
+            letter-spacing: 2px;
+            color: #f0f5ff;
+            text-shadow: 0 0 10px #7ec8ff, 0 0 25px #3f7eff;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .header h1 span {
+            font-weight: 200;
+            font-size: 2rem;
+            color: #b8d6ff;
+            text-shadow: 0 0 8px #2979ff;
+        }
+
+        .header p {
+            color: #b2bbd9;
+            font-size: 1.1rem;
+            border-left: 3px solid #2d7aff;
+            padding-left: 1.5rem;
+            margin-top: 0.25rem;
+            margin-bottom: 2.5rem;
+            text-shadow: 0 0 5px #1e4c9c;
+        }
+
+        /* ========== FORM LOGIN ========== */
+        .login-panel {
+            background: rgba(0, 5, 15, 0.6);
+            border-radius: 38px;
+            padding: 1.8rem 2.2rem;
+            border: 1px solid #2c3e6b;
+            box-shadow: 0 20px 30px -12px #000000, 0 0 20px #12315e33;
+            margin-bottom: 2.8rem;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .login-panel:focus-within {
+            border-color: #5688ff;
+            box-shadow: 0 20px 30px -12px #001c3d, 0 0 35px #3168cf66;
+        }
+
+        .login-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #d3e5ff;
+            font-size: 1.2rem;
+            letter-spacing: 1.5px;
+            margin-bottom: 1.5rem;
+        }
+
+        .login-title .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #4d9eff;
+            box-shadow: 0 0 15px #2d7aff;
+        }
+
+        .input-group {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: flex-end;
+            gap: 1.5rem;
+        }
+
+        .field {
+            flex: 2 1 300px;
+        }
+
+        .field label {
+            display: block;
+            color: #afc9ff;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 0.5rem;
+        }
+
+        /* SELECT ELEGAN */
+        .class-select {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid #3b5180;
+            border-radius: 36px;
+            padding: 1rem 1.8rem;
+            font-size: 1.2rem;
+            color: white;
+            outline: none;
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='26' height='26' viewBox='0 0 24 24' fill='none' stroke='%236d94ff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 1.5rem center;
+            transition: 0.2s;
+        }
+
+        .class-select:hover {
+            border-color: #6d94ff;
+            box-shadow: 0 0 18px #305fdd;
+        }
+
+        .class-select:focus {
+            border-color: #8bb1ff;
+            box-shadow: 0 0 25px #3f7eff;
+        }
+
+        /* TOMBOL MASUK */
+        .btn-masuk {
+            flex: 0 1 auto;
+            background: transparent;
+            border: 1.5px solid #567de0;
+            border-radius: 40px;
+            padding: 0.9rem 2.8rem;
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: #eaf2ff;
+            letter-spacing: 1px;
+            cursor: pointer;
+            backdrop-filter: blur(8px);
+            transition: all 0.2s ease;
+            box-shadow: 0 0 10px #1c4ba0;
+            white-space: nowrap;
+        }
+
+        .btn-masuk:hover, .btn-masuk:focus-visible {
+            background: #215ac9;
+            color: #fff;
+            border-color: #aac9ff;
+            box-shadow: 0 0 30px #4080ff, 0 0 10px #87b0ff inset;
+            transform: scale(1.02);
+            outline: none;
+        }
+
+        /* ========== JADWAL AREA ========== */
+        .schedule-section {
+            margin-top: 2rem;
+        }
+
+        .kelas-badge {
+            display: inline-block;
+            background: linear-gradient(145deg, #16223f, #0b1022);
+            border-radius: 60px;
+            padding: 0.6rem 2rem 0.6rem 2rem;
+            border: 1px solid #2d5192;
+            box-shadow: 0 0 22px #2348a0;
+            margin-bottom: 2rem;
+        }
+
+        .kelas-badge h2 {
+            font-size: 2rem;
+            font-weight: 350;
+            color: #f1f9ff;
+            text-shadow: 0 0 8px #7bb2ff;
+        }
+
+        .kelas-badge h2 small {
+            font-size: 1.2rem;
+            color: #adccff;
+            margin-left: 15px;
+        }
+
+        /* grid jadwal */
+        .schedule-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1.3rem;
+            margin-bottom: 2rem;
+        }
+
+        .day-card {
+            background: rgba(10, 18, 32, 0.7);
+            backdrop-filter: blur(8px);
+            border: 1px solid #263b62;
+            border-radius: 28px;
+            padding: 1.5rem 0.8rem 1.2rem 1.5rem;
+            transition: all 0.2s;
+            box-shadow: 0 8px 0 #030711;
+        }
+
+        .day-card:hover {
+            border-color: #6a98ff;
+            box-shadow: 0 0 28px #3165cf, 0 4px 0 #030711;
+            transform: translateY(-2px);
+            background: rgba(20, 35, 60, 0.8);
+        }
+
+        .day-name {
+            color: #c0d6ff;
+            font-size: 1.4rem;
+            font-weight: 300;
+            border-bottom: 2px dashed #3b5b98;
+            padding-bottom: 0.6rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .day-name span {
+            font-size: 1.8rem;
+        }
+
+        .lesson-list {
+            list-style: none;
+        }
+
+        .lesson-list li {
+            color: #dfeaff;
+            padding: 0.4rem 0 0.4rem 0.8rem;
+            margin-bottom: 6px;
+            border-left: 3px solid transparent;
+            transition: 0.15s;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .lesson-list li:hover {
+            border-left-color: #5484ff;
+            background: linear-gradient(90deg, #1c2d4f, transparent);
+            text-shadow: 0 0 8px #aac9ff;
+            transform: translateX(3px);
+        }
+
+        .lesson-list i {
+            color: #729af0;
+            font-style: normal;
+            font-size: 1.2rem;
+        }
+
+        .no-schedule {
+            color: #95aed9;
+            font-style: italic;
+            padding: 2rem;
+            background: #0c1428;
+            border-radius: 36px;
+            text-align: center;
+            border: 1px dashed #3d6096;
+        }
+
+        /* footer */
+        .footer-glow {
+            margin-top: 3rem;
+            text-align: right;
+            color: #678acb;
+            border-top: 1px solid #263f6e;
+            padding-top: 1.2rem;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+        }
+
+        .footer-glow strong {
+            color: #b3d0ff;
+            text-shadow: 0 0 5px #4488ff;
+        }
+
+        /* responsif */
+        @media (max-width: 600px) {
+            .galaxy-container { padding: 1.5rem; }
+            .header h1 { font-size: 2rem; }
+            .input-group { flex-direction: column; align-items: stretch; }
+            .btn-masuk { width: 100%; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+<div class="galaxy-container">
+    <!-- HEADER ELEGAN -->
+    <div class="header">
+        <h1>
+            ✦ GALAXY <span>|</span> JADWAL PELAJARAN
+            <span style="font-size:2rem;">📘</span>
+        </h1>
+        <p>pilih kelas dan lihat jadwal pelajaran</p>
+    </div>
+
+    <!-- FORM LOGIN (KELAS) DENGAN 11 PILIHAN -->
+    <div class="login-panel" id="loginPanel">
+        <div class="login-title">
+            <span class="dot"></span> JADWAL KELAS 1-6
+        </div>
+        <div class="input-group">
+            <div class="field">
+                <label for="classSelect">Pilih kelas (1 - 6)</label>
+                <select id="classSelect" class="class-select">
+                    <option value="1A">Kelas 1A ✦</option>
+                    <option value="1B">Kelas 1B ✦</option>
+                    <option value="2A">Kelas 2A ✦</option>
+                    <option value="2B">Kelas 2B ✦</option>
+                    <option value="3A">Kelas 3A ✦</option>
+                    <option value="3B">Kelas 3B ✦</option>
+                    <option value="4A">Kelas 4A ✦</option>
+                    <option value="4B">Kelas 4B ✦</option>
+                    <option value="5A">Kelas 5A ✦</option>
+                    <option value="5B">Kelas 5B ✦</option>
+                    <option value="6" selected>Kelas 6 ✦</option>
+                </select>
+            </div>
+            <button class="btn-masuk" id="loginBtn">✦ LIHAT ✦</button>
+        </div>
+        <p style="color:#5b79b0; font-size:0.8rem; margin-top:1rem; margin-left:0.5rem;">🔮 pilih kelas, lalu tekan lihat / enter</p>
+    </div>
+
+    <!-- AREA JADWAL (AKAN DIISI JAVASCRIPT) -->
+    <div class="schedule-section" id="scheduleSection">
+        <div class="kelas-badge" id="kelasBadge">
+            <h2>KELAS <span id="displayKelas">6</span> <small>· Jadwal Pelajaran</small></h2>
+        </div>
+        <div id="scheduleContainer" class="schedule-grid">
+            <!-- jadwal akan diisi oleh js -->
+        </div>
+    </div>
+
+    <!-- footer gemerlap -->
+    <div class="footer-glow">
+        <strong>⚜️ ©wann 2026</strong> · pembuat : MUHAMMAD RAFLI AZZAHWAN
+ tiktok : @wannkulbet_
+    </div>
+</div>
+
+<script>
+    (function() {
+        // ------------------------------------------------------------
+        // DATABASE JADWAL KELAS 1A, 1B, 2A, 2B, 3A, 3B, 4A, 4B, 5A, 5B, 6
+        // ------------------------------------------------------------
+        const jadwalDatabase = {
+            // KELAS 1A
+            '1A': {
+                nama: '1A',
+                hari: [
+                    { nama: 'Senin', pelajaran: ['📖 Pendidikan Pancasila', '🔢 Fiqih'] },
+                    { nama: 'Selasa', pelajaran: ['🌏 Qurdist', '📖 Bahasa Indonesia'] },
+                    { nama: 'Rabu', pelajaran: ['🧪 Matematika', '📖 Tik', '🌏 Bahasa jawa'] },
+                    { nama: 'Kamis', pelajaran: ['🏃 Olahraga', '📖 Penjas', '🏃 P5', '🕌 Seni Rupa'] },
+                    { nama: "Jum'at", pelajaran: ['🌏 Aqidah', '📖 Bahasa Arab'] },
+                    { nama: 'Sabtu', pelajaran: ['📚 Bahasa Inggris', '⚙️ Ekstrakurikuler'] }
+                ]
+            },
+            // KELAS 1B
+            '1B': {
+                nama: '1B',
+                hari: [
+                    { nama: 'Senin', pelajaran: ['🔢 Aqidah', '📖 Pendidikan Pancasila'] },
+                    { nama: 'Selasa', pelajaran: ['🌏 Bahasa Indonesia', '🧪 Tik', '📖 Bahasa Jawa'] },
+                    { nama: 'Rabu', pelajaran: ['📖 Qurdist', '🔢 Matematika'] },
+                    { nama: 'Kamis', pelajaran: ['🏃 Olahraga', '🔢 Penjas', '🏃 P5', '🕌 Seni Rupa'] },
+                    { nama: "Jum'at", pelajaran: ['🧪 Fiqih', '🌏 Bahasa Arab'] },
+                    { nama: 'Sabtu', pelajaran: ['📚 Bahasa Inggris', '⚙️ Ekstrakurikuler'] }
+                ]
+            },
+            // KELAS 2A
+            '2A': {
+                nama: '2A',
+                hari: [
+                    { nama: 'Senin', pelajaran: ['🔢 Qurdist', '🌏 Pendidikan Pancasila'] },
+                    { nama: 'Selasa', pelajaran: ['🧪 Aqidah', '📖 Bahasa Indonesia'] },
+                    { nama: 'Rabu', pelajaran: ['📖 Matematika', '🕌 Fiqih'] },
+                    { nama: 'Kamis', pelajaran: ['🏃 Olahraga', '🧪 Penjas', '🌏 P5', '📖 Seni Rupa'] },
+                    { nama: "Jum'at", pelajaran: ['🌏 Bahasa Inggris', '📖 Bahasa Jawa', '📖 Tik'] },
+                    { nama: 'Sabtu', pelajaran: ['📚 Bahasa Arab', '⚙️ Ekstrakurikuler'] }
+                ]
+            },
+            // KELAS 2B
+            '2B': {
+                nama: '2B',
+                hari: [
+                    { nama: 'Senin', pelajaran: ['📖 Qurdist', '🔢 Pendidikan Pancasila'] },
+                    { nama: 'Selasa', pelajaran: ['📖 Bahasa Indonesia', '🌏 Bahasa Inggris'] },
+                    { nama: 'Rabu', pelajaran: ['📖 Matematika', '🕌 Tik', '🎨 Bahasa Jawa'] },
+                    { nama: 'Kamis', pelajaran: ['🧪 Olahraga', '🔢 Penjas', '📖 P5', '🌏 Seni Rupa'] },
+                    { nama: "Jum'at", pelajaran: ['📖 Aqidah', '🌏 Bahasa Arab'] },
+                    { nama: 'Sabtu', pelajaran: ['📖 Fiqih', '⚙️ Ekstrakurikuler'] }
+                ]
+            },
+            // KELAS 3A
+            '3A': {
+                nama: '3A',
+                hari: [
+                    { nama: 'Senin', pelajaran: ['🧪 Pendidikan Pancasila', '🕌 Fiqih'] },
+                    { nama: 'Selasa', pelajaran: ['🔢 Matematika', '📖 Bahasa Indonesia'] },
+                    { nama: 'Rabu', pelajaran: ['📖 Olahraga', '🕌 Penjas', '🏃 P5', '🗂️ Seni Rupa'] },
+                    { nama: 'Kamis', pelajaran: ['🔢 Qurdist', '🧪 Ski', '📖 Aqidah'] },
+                    { nama: "Jum'at", pelajaran: ['🌏 Bahasa Arab', '📖 Bahasa Inggris'] },
+                    { nama: 'Sabtu', pelajaran: ['📖 Tik', '🧘 Bahasa Jawa', '⚙️ Ekstrakurikuler'] }
+                ]
+            },
+            // KELAS 3B
+            '3B': {
+                nama: '3B',
+                hari: [
+                    { nama: 'Senin', pelajaran: ['🔢 Pendidikan Pancasila', '📖 Fiqih'] },
+                    { nama: 'Selasa', pelajaran: ['📖 Aqidah', '🌏 Ski', '🎨 Bahasa Inggris'] },
+                    { nama: 'Rabu', pelajaran: ['📖 Olahraga', '🕌 Penjas', '🔢 P5', '🗂️ Seni Rupa'] },
+                    { nama: 'Kamis', pelajaran: ['🧪 Bahasa Indonesia', '📖 Matematika'] },
+                    { nama: "Jum'at", pelajaran: ['📖 Bahasa Arab', '🕌 Qurdist'] },
+                    { nama: 'Sabtu', pelajaran: ['📚 Tik', '🎵 Bahasa Jawa', '⚙️ Ekstrakurikuler'] }
+                ]
+            },
+            // KELAS 4A
+            '4A': {
+                nama: '4A',
+                hari: [
+                    { nama: 'Senin', pelajaran: ['🔢 Aqidah', '📖 Qurdist', '🧪 Ipa/s'] },
+                    { nama: 'Selasa', pelajaran: ['📖 Bahasa Indonesia', '🌏 Aswaja', '🔢 Fikih'] },
+                    { nama: 'Rabu', pelajaran: ['📖 Olahraga', '🕌 Penjas', '🎨 P5', '🗂️ Seni Rupa', '📖 Bahasa Inggris'] },
+                    { nama: 'Kamis', pelajaran: ['📖 Pendidikan Pancasila', '🔢 Matematika'] },
+                    { nama: "Jum'at", pelajaran: ['📖 Bahasa Jawa', '🌏 Tik', '🕌 Bahasa Arab'] },
+                    { nama: 'Sabtu', pelajaran: ['📖 Ski', '⚙️ Ekstrakurikuler'] }
+                ]
+            },
+            // KELAS 4B
+            '4B': {
+                nama: '4B',
+                hari: [
+                    { nama: 'Senin', pelajaran: ['📖 Ipa/s', '🔢 Qurdist', '🧪 Bahasa Inggris'] },
+                    { nama: 'Selasa', pelajaran: ['📖 Aqidah', '🌏 Fiqih', '🎨 Bahasa Arab', '🏃 Matematika'] },
+                    { nama: 'Rabu', pelajaran: ['🔢 Olahraga', '🕌 Penjas', '📖 P5', '🗂️ Pendidikan Pancasila'] },
+                    { nama: 'Kamis', pelajaran: ['🧪 Bahasa Indonesia', '📖 Seni Rupa', '🌏 Tik'] },
+                    { nama: "Jum'at", pelajaran: ['📖 Aswaja', '🌏 Bahasa Jawa', '🕌 Matematika'] },
+                    { nama: 'Sabtu', pelajaran: ['📖 Ski', '⚙️ Ekstrakurikuler'] }
+                ]
+            },
+            // KELAS 5A
+            '5A': {
+                nama: '5A',
+                hari: [
+                    { nama: 'Senin', pelajaran: ['🔢 Pendidikan Pancasila', '📖 Seni Rupa', '🧪 Aswaja', '🌏 Bahasa Jawa'] },
+                    { nama: 'Selasa', pelajaran: ['📖 Olahraga', '🌏 Penjas', '🔢 P5', '🎨 Ipa/s'] },
+                    { nama: 'Rabu', pelajaran: ['📖 Qurdist', '🕌 Bahasa Arab', '🏃 Ski', '💻 Fiqih'] },
+                    { nama: 'Kamis', pelajaran: ['🧪 Aqidah', '🔢 Tik', '📖 Bahasa Indonesia'] },
+                    { nama: "Jum'at", pelajaran: ['📖 Matematika'] },
+                    { nama: 'Sabtu', pelajaran: ['📖 Bahasa Inggris', '⚙️ Ekstrakurikuler'] }
+                ]
+            },
+            // KELAS 5B
+            '5B': {
+                nama: '5B',
+                hari: [
+                    { nama: 'Senin', pelajaran: ['📖 Pendidikan Pancasila', '🔢 Seni Rupa', '🧪 Ski'] },
+                    { nama: 'Selasa', pelajaran: ['📖 Olahraga', '🌏 Penjas', '🎨 P5', '🏃 Ipa/s'] },
+                    { nama: 'Rabu', pelajaran: ['🔢 Aqidah', '🕌 Matematika', '📖 Qurdist'] },
+                    { nama: 'Kamis', pelajaran: ['🧪 Bahasa Indonesia', '📖 Tik', '🌏 Bahasa Arab'] },
+                    { nama: "Jum'at", pelajaran: ['📖 Bahasa Inggris', '🌏 Aswaja', '🕌 Bahasa Jawa'] },
+                    { nama: 'Sabtu', pelajaran: ['📖 Fiqih', '⚙️ Ekstrakurikuler'] }
+                ]
+            },
+            // KELAS 6
+            '6': {
+                nama: '6',
+                hari: [
+                    { nama: 'Senin', pelajaran: ['🔢 Bahasa Indonesia', '📖 Tik', '🧪 Seni Rupa'] },
+                    { nama: 'Selasa', pelajaran: ['📖 Olahraga', '🌏 Penjas', '🔢 P5', '🎨 Ipa/s'] },
+                    { nama: 'Rabu', pelajaran: ['📖 Pendidikan Pancasila', '🕌 Matematika'] },
+                    { nama: 'Kamis', pelajaran: ['🧪 Qurdist', '🔢 Bahasa Arab', '📖 Ski', '🌏 Fiqih'] },
+                    { nama: "Jum'at", pelajaran: ['📖 Aqidah', '🌏 Aswaja', '🕌 Bahasa Jawa'] },
+                    { nama: 'Sabtu', pelajaran: ['📖 Bahasa Inggris', '⚙️ Ekstra'] }
+                ]
+            }
+        };
+
+        // elemen
+        const classSelect = document.getElementById('classSelect');
+        const loginBtn = document.getElementById('loginBtn');
+        const displayKelasSpan = document.getElementById('displayKelas');
+        const scheduleContainer = document.getElementById('scheduleContainer');
+
+        // fungsi render jadwal berdasarkan kelas
+        function renderJadwal(kelas) {
+            const data = jadwalDatabase[kelas];
+            if (!data) {
+                scheduleContainer.innerHTML = `<div class="no-schedule">⚡ jadwal belum tersedia untuk ${kelas}, Tuan.</div>`;
+                displayKelasSpan.innerText = kelas;
+                return;
+            }
+
+            let html = '';
+            data.hari.forEach(h => {
+                let lessonItems = '';
+                h.pelajaran.forEach(p => {
+                    lessonItems += `<li><i>✦</i> ${p}</li>`;
+                });
+
+                html += `
+                    <div class="day-card">
+                        <div class="day-name"><span>📅</span> ${h.nama}</div>
+                        <ul class="lesson-list">
+                            ${lessonItems}
+                        </ul>
+                    </div>
+                `;
+            });
+
+            scheduleContainer.innerHTML = html;
+            displayKelasSpan.innerText = data.nama;
+        }
+
+        // event masuk: ambil value dari select lalu render
+        function handleMasuk() {
+            const selectedKelas = classSelect.value; // string '1A', '1B', ... '6'
+            renderJadwal(selectedKelas);
+        }
+
+        loginBtn.addEventListener('click', handleMasuk);
+
+        // enter pada select juga memicu
+        classSelect.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                handleMasuk();
+            }
+        });
+
+        // inisialisasi default: tampilkan kelas 6 (karena selected)
+        window.addEventListener('load', () => {
+            renderJadwal('6');
+        });
+
+        // efek glow card saat diklik (opsional)
+        scheduleContainer.addEventListener('click', (e) => {
+            const card = e.target.closest('.day-card');
+            if (card) {
+                card.style.transition = '0.1s';
+                card.style.boxShadow = '0 0 45px #4f8eff, 0 4px 0 #030711';
+                card.style.borderColor = '#ffffff';
+                setTimeout(() => {
+                    card.style.boxShadow = '0 0 28px #3165cf, 0 4px 0 #030711';
+                    card.style.borderColor = '#6a98ff';
+                }, 200);
+            }
+        });
+
+        // efek login panel saat diklik di luar input
+        const panel = document.querySelector('.login-panel');
+        panel.addEventListener('click', function(e) {
+            if (!e.target.closest('select') && !e.target.closest('button')) {
+                this.style.boxShadow = '0 0 45px #3f7eff, 0 20px 30px -12px #001c3d';
+                setTimeout(() => {
+                    this.style.boxShadow = '0 20px 30px -12px #000000, 0 0 20px #12315e33';
+                }, 250);
+            }
+        });
+
+    })();
+</script>
+</body>
+</html>
